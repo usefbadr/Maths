@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مكتبة الماث</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1c2233;--mute:#6b7390;--line:#e2e5f0;--pri:#4f46e5;--pri-ink:#fff;--ok:#16a34a;--soft:#eef0ff}
+@media (prefers-color-scheme:dark){:root{--bg:#12141c;--card:#1b1e2a;--ink:#e8eaf3;--mute:#9aa1bd;--line:#2c3040;--pri:#818cf8;--pri-ink:#12141c;--soft:#252a45;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.6}
+main{max-width:760px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.5rem;margin:6px 0 2px}
+.sub{color:var(--mute);font-size:.9rem;margin:0 0 14px}
+input[type=search]{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+input[type=search]:focus{outline:2px solid var(--pri);border-color:transparent}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:8px 14px;background:var(--pri);color:var(--pri-ink);font-weight:600}
+button.ghost{background:transparent;color:var(--mute);padding:4px 8px;font-weight:400}
+.row{display:flex;gap:8px;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden}
+.head{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;user-select:none}
+.head .t{flex:1;font-weight:700}
+.head .n{color:var(--mute);font-size:.85rem}
+.chev{transition:transform .15s;color:var(--mute)}
+.open>.head .chev{transform:rotate(-90deg)}
+.body{padding:0 12px 12px}
+.topic{background:var(--soft);border-radius:12px;margin:8px 0}
+.topic .head{padding:10px 12px}
+.topic .t{font-weight:600}
+.vid{display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line)}
+.vid .t{flex:1;text-align:start;background:none;color:var(--ink);padding:2px 0;font-weight:400}
+.vid.done .t{color:var(--mute);text-decoration:line-through}
+.vid input[type=checkbox]{width:20px;height:20px;accent-color:var(--ok);flex:none}
+.path{color:var(--mute);font-size:.8rem}
+.player{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:10px 0;position:sticky;top:0;z-index:5}
+.player iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:var(--ok);width:0}
+.note{color:var(--mute);text-align:center;padding:16px 10px}
+.foot{color:var(--mute);text-align:center;margin-top:28px;font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>📐 مكتبة الماث</h1>
+  <p class="sub" id="sub"></p>
+  <div id="app"></div>
+  <p class="foot" dir="ltr">Powered by Yousseif Badr</p>
+</main>
+<script>
+/* =====================================================================
+   هنا بتضيف المحتوى. ده المكان الوحيد اللي محتاج تعدّل فيه.
+
+   لإضافة فيديو: حط سطر زي ده جوه [ ] بتاعة الفرع (وحط فاصلة بعد كل سطر):
+       {title:"عنوان الفيديو", url:"https://www.youtube.com/watch?v=XXXXXXXXXXX"},
+
+   لو حطيت لينك بلاي ليست كاملة (فيه list=) هتتفتح كمشغّل واحد فيه كل الفيديوهات.
+
+   لإضافة فرع: حط سطر جديد جوه topics بنفس الشكل. ولإضافة عنوان رئيسي:
+   انسخ كتلة {title:"رياضة ..", topics:[...]} بالكامل.
+   ===================================================================== */
+const DATA=[
+  {title:"رياضة 1",topics:[
+    {title:"جبر",videos:[
+    ]},
+    {title:"تفاضل",videos:[
+    ]},
+  ]},
+  {title:"رياضة 2",topics:[
+    {title:"تكامل",videos:[
+    ]},
+    {title:"هندسة تحليلية",videos:[
+    ]},
+  ]},
+  {title:"رياضة 3",topics:[
+    {title:"D.E",videos:[
+    ]},
+    {title:"SEV",videos:[
+    ]},
+  ]},
+];
+/* ===================== نهاية المحتوى، ما تعدّلش تحت ===================== */
+
+const app=document.getElementById('app'),sub=document.getElementById('sub');
+let q='',playing=null;
+const open=new Set();
+let watched={};
+try{watched=JSON.parse(localStorage.getItem('watched')||'{}')}catch(e){}
+const saveWatched=()=>{try{localStorage.setItem('watched',JSON.stringify(watched))}catch(e){}};
+
+function h(tag,p,...kids){const e=document.createElement(tag);
+  for(const k in p||{}){const v=p[k];
+    if(k==='class')e.className=v;
+    else if(k==='value')e.value=v;
+    else if(k==='checked')e.checked=!!v;
+    else if(k.startsWith('on'))e[k]=v;
+    else if(v!==false&&v!=null)e.setAttribute(k,v)}
+  for(const c of kids.flat()){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(c))}
+  return e}
+const ytId=u=>{const m=(u||'').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);return m?m[1]:null};
+const plId=u=>{const m=(u||'').match(/[?&]list=([\w-]+)/);return m?m[1]:null};
+const norm=s=>(s||'').toLowerCase().replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim();
+function lev(a,b){const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function fuzzy(text,query){const t=norm(text),words=t.split(' '),toks=norm(query).split(' ').filter(Boolean);
+  return toks.every(k=>{if(t.includes(k))return true;const tol=k.length<=3?0:k.length<=6?1:2;if(!tol)return false;
+    return words.some(w=>lev(k,w)<=tol||(w.length>k.length&&lev(k,w.slice(0,k.length))<=tol))})}
+
+const all=[];
+DATA.forEach((s,si)=>s.topics.forEach((t,ti)=>t.videos.forEach(v=>all.push({v,s,t,id:v.url}))));
+
+function videoRow(x,withPath){
+  const {v,s,t,id}=x,done=!!watched[id];
+  return h('div',{class:'vid'+(done?' done':'')},
+    h('input',{type:'checkbox',checked:done,title:'خلصته',onchange:e=>{if(e.target.checked)watched[id]=1;else delete watched[id];saveWatched();render()}}),
+    h('button',{class:'t',onclick:()=>{playing=x;render();window.scrollTo({top:0,behavior:'smooth'})}},v.title,withPath?h('div',{class:'path'},s.title+' › '+t.title):null))}
+
+function toggle(k){open.has(k)?open.delete(k):open.add(k);render()}
+
+function topicEl(s,t,k){
+  const items=t.videos.map(v=>({v,s,t,id:v.url})),isOpen=open.has(k),d=items.filter(x=>watched[x.id]).length;
+  return h('div',{class:'topic'+(isOpen?' open':'')},
+    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},t.title),h('span',{class:'n'},d+'/'+items.length)),
+    isOpen?h('div',null,items.length?items.map(x=>videoRow(x)):h('p',{class:'note'},'مفيش فيديوهات هنا لسه')):null)}
+
+function sectionEl(s,si){
+  const k='s'+si,isOpen=open.has(k),items=all.filter(x=>x.s===s),d=items.filter(x=>watched[x.id]).length;
+  return h('div',{class:'card'+(isOpen?' open':'')},
+    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},s.title),h('span',{class:'n'},d+'/'+items.length)),
+    isOpen?h('div',{class:'body'},s.topics.map((t,ti)=>topicEl(s,t,k+'-'+ti))):null)}
+
+function playerEl(){
+  if(!playing)return null;
+  const v=playing.v,id=ytId(v.url),pl=id?null:plId(v.url);
+  return h('div',{class:'player'},
+    h('div',{class:'row',style:'margin-bottom:8px'},h('b',{style:'flex:1'},v.title),h('button',{class:'ghost',onclick:()=>{playing=null;render()}},'✕')),
+    (id||pl)?h('iframe',{src:'https://www.youtube-nocookie.com/embed/'+(id?id:'videoseries?list='+pl),allow:'accelerometer; encrypted-media; picture-in-picture',allowfullscreen:'',title:v.title}):null,
+    h('div',{style:'margin-top:8px'},h('a',{href:v.url,target:'_blank',rel:'noopener',style:'color:var(--pri)'},'فتح الفيديو في تاب جديد ↗')))}
+
+function render(){
+  const total=all.length,d=all.filter(x=>watched[x.id]).length;
+  sub.textContent=total?'خلصت '+d+' من '+total+' فيديو':'';
+  const kids=[playerEl()];
+  if(total){
+    kids.push(h('div',{class:'bar'},h('i',{style:'width:'+Math.round(100*d/total)+'%'})));
+    kids.push(h('input',{type:'search',placeholder:'🔎 دوّر على درس (حتى لو الاسم غلط شوية)',value:q,oninput:e=>{q=e.target.value;render();const i=app.querySelector('input[type=search]');i.focus();i.setSelectionRange(q.length,q.length)}}));
+  }
+  if(q.trim()){
+    const m=all.filter(x=>fuzzy(x.v.title+' '+x.t.title+' '+x.s.title,q));
+    kids.push(h('div',{class:'card',style:'margin-top:12px'},m.length?m.map(x=>videoRow(x,true)):h('p',{class:'note'},'مفيش نتايج')));
+  }else kids.push(DATA.map(sectionEl));
+  app.replaceChildren(...kids.flat().filter(Boolean));
+}
+render();
+</script>
+</body>
+</html>
