@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>مكتبة الماث</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">
+<title>Mansoura Maths Hub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Righteous&display=swap">
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--ink:#1c2233;--mute:#6b7390;--line:#e2e5f0;--pri:#4f46e5;--pri-ink:#fff;--ok:#16a34a;--soft:#eef0ff}
-@media (prefers-color-scheme:dark){:root{--bg:#12141c;--card:#1b1e2a;--ink:#e8eaf3;--mute:#9aa1bd;--line:#2c3040;--pri:#818cf8;--pri-ink:#12141c;--soft:#252a45;color-scheme:dark}}
+:root{--brand:#1c2233;--bg:#f6f7fb;--card:#fff;--ink:#1c2233;--mute:#6b7390;--line:#e2e5f0;--pri:#4f46e5;--pri-ink:#fff;--ok:#16a34a;--soft:#eef0ff}
+@media (prefers-color-scheme:dark){:root{--brand:#f5f0e1;--bg:#12141c;--card:#1b1e2a;--ink:#e8eaf3;--mute:#9aa1bd;--line:#2c3040;--pri:#818cf8;--pri-ink:#12141c;--soft:#252a45;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;line-height:1.6}
 main{max-width:760px;margin:0 auto;padding:16px 14px 40px}
-h1{font-size:1.5rem;margin:6px 0 2px}
+h1{font-family:"Righteous","Cairo",sans-serif;font-weight:400;font-size:2rem;letter-spacing:.5px;color:var(--brand);margin:6px 0 2px;text-align:center}
 .sub{color:var(--mute);font-size:.9rem;margin:0 0 14px}
 input[type=search]{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
 input[type=search]:focus{outline:2px solid var(--pri);border-color:transparent}
@@ -31,6 +31,7 @@ button.ghost{background:transparent;color:var(--mute);padding:4px 8px;font-weigh
 .vid{display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line)}
 .vid .t{flex:1;text-align:start;background:none;color:var(--ink);padding:2px 0;font-weight:400}
 .vid.done .t{color:var(--mute);text-decoration:line-through}
+.vid a.t{color:var(--ink);text-decoration:none}
 .vid input[type=checkbox]{width:20px;height:20px;accent-color:var(--ok);flex:none}
 .path{color:var(--mute);font-size:.8rem}
 .player{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:10px 0;position:sticky;top:0;z-index:5}
@@ -43,7 +44,7 @@ button.ghost{background:transparent;color:var(--mute);padding:4px 8px;font-weigh
 </head>
 <body>
 <main>
-  <h1>📐 مكتبة الماث</h1>
+  <h1 dir="ltr">Mansoura Maths Hub</h1>
   <p class="sub" id="sub"></p>
   <div id="app"></div>
   <p class="foot" dir="ltr">Powered by Yousseif Badr</p>
@@ -61,19 +62,91 @@ button.ghost{background:transparent;color:var(--mute);padding:4px 8px;font-weigh
    انسخ كتلة {title:"رياضة ..", topics:[...]} بالكامل.
    ===================================================================== */
 const DATA=[
-  {title:"رياضة 1",topics:[
+  {title:"Maths 1",topics:[
     {title:"جبر",videos:[
+      {title:"Ch1_A_Theory of polynomial", url:"https://youtu.be/z1P5DcblvrU"},
+      {title:"Ch1_B_Theory of polynomial", url:"https://youtu.be/si6PxFvv2xs"},
+      {title:"Ch1_C_Theory of polynomial", url:"https://youtu.be/tpa4Y16tAqU"},
+      {title:"(ch2_a) partial fractions", url:"https://youtu.be/KW2fRTEqV_M"},
+      {title:"(ch2_b) partial fractions", url:"https://youtu.be/1dgdZJz80zI"},
+      {title:"(ch 3) mathematical induction", url:"https://youtu.be/tFqPK18KX-U"},
+      {title:"mathematical induction 2 examples", url:"https://youtu.be/pOIsXoaowxI"},
+      {title:"mathematical induction 3 examples", url:"https://youtu.be/fPu6HSL8X8k"},
+      {title:"(Gauss_Jordan) _ 1", url:"https://youtu.be/DCbqea-M9X0"},
+      {title:"(Gauss Jordan) _ 2", url:"https://youtu.be/uzxphSUf5g8"},
+      {title:"(Gauss Jordan) _ 3", url:"https://youtu.be/fuBtwJ5vtDo"},
+      {title:"Eigenvalues and Eigenvectors (1)", url:"https://youtu.be/OA38xMRm0uM"},
+      {title:"Eigenvalues and eigenvectors (2) Properties", url:"https://youtu.be/2T88a_4HbX0"},
     ]},
     {title:"تفاضل",videos:[
+      {title:"e^x)(ch1-a_Functions))", url:"https://youtu.be/V8y4sNmbfF8"},
+      {title:"(ch1 -1b) (e^-x, ln x)", url:"https://youtu.be/WaNfTyNy91A"},
+      {title:"(ch1_1c)(hyperbolic fn)", url:"https://youtu.be/SCeCncgFjLo"},
+      {title:"(ch1_1d)(inverse hyperbolic)", url:"https://youtu.be/36X6_xkxzoE"},
+      {title:"(ch1_1e) (sin,cos,tan)", url:"https://youtu.be/IzjjVi0lZHQ"},
+      {title:"( ch1_1f) ( inverse trigonometric)", url:"https://youtu.be/400vTlBsM5Y"},
+      {title:"(ch1_g) أمثله", url:"https://youtu.be/HdL2biUQGxA"},
+      {title:"(ch 2_a) Derivatives", url:"https://youtu.be/2kvVYmiwrCU"},
+      {title:"(ch 2_b) Derivatives", url:"https://youtu.be/8SOloFaGTqU"},
+      {title:"(ch2_c) Logarithmic derivatives", url:"https://youtu.be/fWtrKGTUjMI"},
+      {title:"ch3-a (L' Hopital 1)", url:"https://youtu.be/ifZqyE3Fq34"},
+      {title:"ch3 b (L'Hopital 2)", url:"https://youtu.be/RTOB4M_cxVc"},
+      {title:"ch3 (Taylor series)", url:"https://youtu.be/0f2DrG4eySs"},
+      {title:"مراجعة على ما سبق", url:"https://youtu.be/w70tbRM8bZ0"},
+      {title:"Ch 4 (1) function of several variables (domain 1)", url:"https://youtu.be/GtcHBS52Guc"},
+      {title:"Ch 4 (2) function of several variables (domain 2)", url:"https://youtu.be/pjasLizhn3Q"},
+      {title:"ch 4 (3) function of several variables (domain 3)", url:"https://youtu.be/_e5lTu_IUbA"},
+      {title:"ch 4 (4) partial derivatives (explicit function)", url:"https://youtu.be/Gvxge5MvShw"},
+      {title:"ch 4(5) Chain rule. partial derivative by Tree diagram", url:"https://youtu.be/XX3CVgMPuXE"},
+      {title:"ch 4 (6) implicit derivative of function of several variables", url:"https://youtu.be/NCPBPaE1-OE"},
+      {title:"ch 4(7) extrema of function of 2 variables", url:"https://youtu.be/Vd9sD02n9Ws"},
     ]},
   ]},
-  {title:"رياضة 2",topics:[
+  {title:"Maths 2",topics:[
     {title:"تكامل",videos:[
+      {title:"(ch1 part 1)", url:"https://youtu.be/RUk95eJ8Plw"},
+      {title:"(ch1 part 2)", url:"https://youtu.be/6uG9k8wlOrA"},
+      {title:"(ch1 part 3)", url:"https://youtu.be/h0EZCN25Sak"},
+      {title:"(ch1 part 4)", url:"https://youtu.be/-ezqYc6djBw"},
+      {title:"(ch2 part 1) by parts", url:"https://youtu.be/nSfcPUVTbk8"},
+      {title:"(ch2 part2) substitution", url:"https://youtu.be/O9gb6uGmTtg"},
+      {title:"(ch2 part3) removing roots", url:"https://youtu.be/y3aqHpdVQUQ"},
+      {title:"(ch2 part4) completing square", url:"https://youtu.be/7A-41Alxu0c"},
+      {title:"(ch2 part5) integration by partial fractions", url:"https://youtu.be/oeuLRftb93k"},
+      {title:"(ch2 part6) Strategy for Integration", url:"https://youtu.be/F0trVVlaEgY"},
+      {title:"Differential Equation_linear", url:"https://youtu.be/Cuhu79alv6c"},
+      {title:"Differential Equation تكملة لما قبله", url:"https://youtu.be/NutJ4aEtEjk"},
+      {title:"Exact _Differential Equation", url:"https://youtu.be/MSTO6PsTPMQ"},
+      {title:"(ch4 part1) definite integral", url:"https://youtu.be/KbgRloxlC38"},
+      {title:"( ch4 part2) improper integral", url:"https://youtu.be/DjL4ugazGj8"},
+      {title:"(ch5) Area", url:"https://youtu.be/XYMLrR-n7rI"},
+      {title:"(ch5) Volume", url:"https://youtu.be/E-OJMafTKYM"},
+      {title:"(ch5) arc length & surface area", url:"https://youtu.be/cNSSLe8rdzk"},
+      {title:"mcq review مراجعة تكامل", url:"https://youtu.be/l4HmJ1RxaVE"},
     ]},
     {title:"هندسة تحليلية",videos:[
+      {title:"(1_ introduction)", url:"https://youtu.be/81l8X4zqVaA"},
+      {title:"(2_ parabola)", url:"https://youtu.be/HJA2-HcQbwI"},
+      {title:"parabola (new example) {Curved Parabola}", url:"https://youtu.be/xxNfMtQdwhg"},
+      {title:"(3_Ellipse) _ A", url:"https://youtu.be/KvNIgrO5PtQ"},
+      {title:"(3_Ellipse) _ B", url:"https://youtu.be/ylLeby9kb9I"},
+      {title:"مثال جامع بين parabola & ellipse", url:"https://youtu.be/E8I2-lPBF00"},
+      {title:"(4_Circle)", url:"https://youtu.be/iIwUeb_pIrQ"},
+      {title:"(4_circle) : polar Region", url:"https://youtu.be/uTFZHIKkWHE"},
+      {title:"(5_Hyperbola)", url:"https://youtu.be/QGnZEc3sQrI"},
+      {title:"(ch.2) 3D Point Line Plane", url:"https://youtu.be/8HFALBaWoXU"},
+      {title:"(Ch.2) Point.Line.Plane - نفس شرح الفيديو اللي فوقه بس بعمق وفهم أعلى", url:"https://youtu.be/U0MfBAivVkE"},
+      {title:"(ch.3 _1) cylinder", url:"https://youtu.be/iANaxzWVBb4"},
+      {title:"(ch.3 _2) Conicoid with algorithm", url:"https://youtu.be/jQummo3ejyY"},
+      {title:"(ch.3 _3)", url:"https://youtu.be/s463gKKP7Iw"},
+      {title:"(ch.3 _4)", url:"https://youtu.be/RVzPlviYsZ4"},
+      {title:"(ch.3 _5)", url:"https://youtu.be/Ieffs8oDJUI"},
+      {title:"(ch.3 _6)", url:"https://youtu.be/ynnSZjNyBzk"},
+      {title:"(ch.3 _7)", url:"https://youtu.be/dj_jI0uMLvg"},
+      {title:"(ch.3 _8)", url:"https://youtu.be/I2i3At0QzvA"},
     ]},
   ]},
-  {title:"رياضة 3",topics:[
+  {title:"Maths 3",topics:[
     {title:"D.E",videos:[
     ]},
     {title:"SEV",videos:[
@@ -113,20 +186,20 @@ function videoRow(x,withPath){
   const {v,s,t,id}=x,done=!!watched[id];
   return h('div',{class:'vid'+(done?' done':'')},
     h('input',{type:'checkbox',checked:done,title:'خلصته',onchange:e=>{if(e.target.checked)watched[id]=1;else delete watched[id];saveWatched();render()}}),
-    h('button',{class:'t',onclick:()=>{playing=x;render();window.scrollTo({top:0,behavior:'smooth'})}},v.title,withPath?h('div',{class:'path'},s.title+' › '+t.title):null))}
+    h('a',{class:'t',href:v.url,target:'_blank',rel:'noopener'},v.title,withPath?h('div',{class:'path'},s.title+' › '+t.title):null))}
 
 function toggle(k){open.has(k)?open.delete(k):open.add(k);render()}
 
 function topicEl(s,t,k){
   const items=t.videos.map(v=>({v,s,t,id:v.url})),isOpen=open.has(k),d=items.filter(x=>watched[x.id]).length;
   return h('div',{class:'topic'+(isOpen?' open':'')},
-    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},t.title),h('span',{class:'n'},d+'/'+items.length)),
+    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},t.title)),
     isOpen?h('div',null,items.length?items.map(x=>videoRow(x)):h('p',{class:'note'},'مفيش فيديوهات هنا لسه')):null)}
 
 function sectionEl(s,si){
   const k='s'+si,isOpen=open.has(k),items=all.filter(x=>x.s===s),d=items.filter(x=>watched[x.id]).length;
   return h('div',{class:'card'+(isOpen?' open':'')},
-    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},s.title),h('span',{class:'n'},d+'/'+items.length)),
+    h('div',{class:'head',onclick:()=>toggle(k)},h('span',{class:'chev'},'◀'),h('span',{class:'t'},s.title)),
     isOpen?h('div',{class:'body'},s.topics.map((t,ti)=>topicEl(s,t,k+'-'+ti))):null)}
 
 function playerEl(){
@@ -139,11 +212,11 @@ function playerEl(){
 
 function render(){
   const total=all.length,d=all.filter(x=>watched[x.id]).length;
-  sub.textContent=total?'خلصت '+d+' من '+total+' فيديو':'';
+  sub.textContent='';
   const kids=[playerEl()];
   if(total){
-    kids.push(h('div',{class:'bar'},h('i',{style:'width:'+Math.round(100*d/total)+'%'})));
-    kids.push(h('input',{type:'search',placeholder:'🔎 دوّر على درس (حتى لو الاسم غلط شوية)',value:q,oninput:e=>{q=e.target.value;render();const i=app.querySelector('input[type=search]');i.focus();i.setSelectionRange(q.length,q.length)}}));
+    
+    kids.push(h('input',{type:'search',placeholder:'🔎 دوّر على درس',value:q,oninput:e=>{q=e.target.value;render();const i=app.querySelector('input[type=search]');i.focus();i.setSelectionRange(q.length,q.length)}}));
   }
   if(q.trim()){
     const m=all.filter(x=>fuzzy(x.v.title+' '+x.t.title+' '+x.s.title,q));
